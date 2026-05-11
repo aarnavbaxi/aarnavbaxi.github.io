@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aarnav Baxi — Experience</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ── Logo ── */
+    #logo { position: fixed; top: 1.25rem; left: 1.75rem; z-index: 200; }
+    #logo img { height: 36px; width: auto; display: block; }
+
+    #nav-toggle {
+      position: fixed; top: 1.5rem; right: 1.75rem; z-index: 200;
+      background: none; border: none; cursor: pointer;
+      display: flex; flex-direction: column; gap: 5px; padding: 6px;
+    }
+    #nav-toggle span {
+      display: block; width: 26px; height: 2px; background: #13294B;
+      border-radius: 2px; transform-origin: center; transition: background 0.2s;
+    }
+    #nav-toggle.is-open span { background: #ffffff; }
+
+    #nav-overlay {
+      position: fixed; inset: 0; z-index: 150;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      opacity: 0; pointer-events: none;
+    }
+    .nav-panel { position: relative; overflow: hidden; background: #13294B; }
+    .panel-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .nav-panel a {
+      position: absolute; top: 1.75rem; left: 1.75rem; z-index: 1;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: clamp(2.4rem, 5vw, 5rem); letter-spacing: -0.02em;
+      color: #ffffff; text-decoration: none; opacity: 0; transform: translateY(24px);
+    }
+    .nav-panel a:hover { text-decoration: underline; }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 clamp(2rem, 8vw, 8rem);
+    }
+
+    .page-header { margin-bottom: 2.5rem; }
+    .page-header .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      letter-spacing: 0.12em; color: #4B9CD3; margin-bottom: 0.4rem;
+    }
+    .page-header h1 {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: clamp(3rem, 7vw, 7rem); letter-spacing: -0.04em;
+      color: #13294B; line-height: 0.92;
+    }
+
+    .timeline-box {
+      display: flex;
+      align-items: stretch;
+      gap: 2rem;
+    }
+
+    .entries-window {
+      position: relative;
+      width: clamp(320px, 45vw, 640px);
+      height: 320px;
+      overflow: hidden;
+    }
+
+    .entries-window::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, #ffffff);
+      pointer-events: none;
+    }
+
+    .entry {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      padding-bottom: 1rem;
+    }
+
+    .entry-dates {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.72rem, 1vw, 0.82rem);
+      color: #4B9CD3; letter-spacing: 0.08em; margin-bottom: 0.4rem;
+    }
+
+    .entry-role {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: clamp(1.4rem, 2.8vw, 2.2rem); letter-spacing: -0.03em;
+      color: #13294B; line-height: 1; margin-bottom: 0.3rem;
+    }
+
+    .entry-company {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+      color: #4B9CD3; letter-spacing: 0.06em; margin-bottom: 1rem;
+    }
+
+    .entry-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.75rem, 1vw, 0.88rem);
+      line-height: 1.8; color: #13294B;
+    }
+
+    .arrows {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .dots {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #13294B;
+      opacity: 0.2;
+      transition: background 0.3s, opacity 0.3s;
+      flex-shrink: 0;
+    }
+    .dot.active {
+      background: #4B9CD3;
+      opacity: 1;
+    }
+
+    .arrow {
+      background: none;
+      border: 2px solid #4B9CD3;
+      color: #4B9CD3;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .arrow:hover:not(:disabled) { background: #4B9CD3; color: #ffffff; }
+    .arrow:disabled { opacity: 0.2; cursor: default; }
+    .arrow svg { width: 16px; height: 16px; fill: currentColor; }
+  </style>
+</head>
+<body>
+
+  <a id="logo" href="index.html">
+    <img src="assets/logo.png" alt="Aarnav Baxi">
+  </a>
+
+  <button id="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="nav-overlay" aria-hidden="true">
+    <div class="nav-panel" id="panel-about">
+      <canvas class="panel-canvas" id="canvas-about"></canvas>
+      <a href="about.html">about</a>
+    </div>
+    <div class="nav-panel" id="panel-experience">
+      <canvas class="panel-canvas" id="canvas-experience"></canvas>
+      <a href="experience.html">experience</a>
+    </div>
+    <div class="nav-panel" id="panel-projects">
+      <canvas class="panel-canvas" id="canvas-projects"></canvas>
+      <a href="projects.html">projects</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <header class="page-header">
+      <p class="label">this is my</p>
+      <h1>experience.</h1>
+    </header>
+
+    <div class="timeline-box">
+      <div class="entries-window" id="entries-window">
+
+        <div class="entry">
+          <p class="entry-dates">May 2026 – Present</p>
+          <h2 class="entry-role">Software Engineer Intern</h2>
+          <p class="entry-company">Commvault</p>
+          <p class="entry-desc">Incoming Summer 2026.</p>
+        </div>
+
+        <div class="entry">
+          <p class="entry-dates">Jan 2025 – Jun 2025</p>
+          <h2 class="entry-role">Software Engineer Intern</h2>
+          <p class="entry-company">Commvault</p>
+          <p class="entry-desc">Developed and implemented automated test case generation and documentation analysis tools to optimize software testing workflows and improve bug detection.</p>
+        </div>
+
+
+      </div>
+
+      <div class="arrows">
+        <button class="arrow" id="btn-up" aria-label="Previous">
+          <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+        </button>
+        <button class="arrow" id="btn-down" aria-label="Next">
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+      </div>
+
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+
+  <script>
+    const entries  = Array.from(document.querySelectorAll('.entry'));
+    const win      = document.getElementById('entries-window');
+    const btnUp    = document.getElementById('btn-up');
+    const btnDown  = document.getElementById('btn-down');
+    const ACTIVE_H = 230;
+    const BOX_H    = win.offsetHeight;
+    const DUR      = 0.55;
+    const EASE     = 'power3.inOut';
+    let current    = 0;
+    let animating  = false;
+
+    entries.forEach((el, i) => {
+      if (i === 0)      gsap.set(el, { y: 0,       opacity: 1   });
+      else if (i === 1) gsap.set(el, { y: ACTIVE_H, opacity: 0.35 });
+      else              gsap.set(el, { y: BOX_H,    opacity: 0   });
+    });
+
+    const dotsContainer = document.getElementById('dots');
+    entries.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dotsContainer.appendChild(d);
+    });
+    const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
+
+    function updateButtons() {
+      btnUp.disabled   = current === 0;
+      btnDown.disabled = current === entries.length - 1;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+    updateButtons();
+
+    function goDown() {
+      if (current >= entries.length - 1 || animating) return;
+      animating = true;
+      const prev = current;
+      current++;
+
+      gsap.to(entries[prev],    { y: -ACTIVE_H, opacity: 0,    duration: DUR, ease: EASE });
+      gsap.to(entries[current], { y: 0,          opacity: 1,    duration: DUR, ease: EASE });
+
+      if (current + 1 < entries.length) {
+        gsap.set(entries[current + 1], { y: BOX_H });
+        gsap.to(entries[current + 1],  { y: ACTIVE_H, opacity: 0.35, duration: DUR, ease: EASE });
+      }
+
+      gsap.delayedCall(DUR, () => { animating = false; });
+      updateButtons();
+    }
+
+    function goUp() {
+      if (current <= 0 || animating) return;
+      animating = true;
+      const prev = current;
+      current--;
+
+      if (prev + 1 < entries.length)
+        gsap.to(entries[prev + 1], { y: BOX_H, opacity: 0, duration: DUR, ease: EASE });
+
+      gsap.to(entries[prev],    { y: ACTIVE_H, opacity: 0.35, duration: DUR, ease: EASE });
+      gsap.to(entries[current], { y: 0,         opacity: 1,    duration: DUR, ease: EASE });
+
+      gsap.delayedCall(DUR, () => { animating = false; });
+      updateButtons();
+    }
+
+    btnDown.addEventListener('click', goDown);
+    btnUp.addEventListener('click', goUp);
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown') goDown();
+      if (e.key === 'ArrowUp')   goUp();
+    });
+
+    gsap.from('.page-header', { opacity: 0, y: 20, duration: 0.7, delay: 0.15, ease: 'power3.out' });
+    gsap.from('.timeline-box', { opacity: 0, y: 20, duration: 0.7, delay: 0.35, ease: 'power3.out' });
+
+    const toggle  = document.getElementById('nav-toggle');
+    const overlay = document.getElementById('nav-overlay');
+    const bars    = toggle.querySelectorAll('span');
+    const links   = overlay.querySelectorAll('.nav-panel a');
+    let navOpen   = false;
+
+    toggle.addEventListener('click', () => {
+      navOpen = !navOpen;
+      toggle.setAttribute('aria-expanded', navOpen);
+      overlay.setAttribute('aria-hidden', !navOpen);
+      if (navOpen) {
+        toggle.classList.add('is-open');
+        overlay.style.pointerEvents = 'auto';
+        gsap.to('#logo', { opacity: 0, duration: 0.2 });
+        startPanelPatterns();
+        gsap.to(overlay, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+        gsap.to(links, { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power3.out', delay: 0.1 });
+        gsap.to(bars[0], { y: 7,  rotation: 45,  duration: 0.3, ease: 'power2.inOut' });
+        gsap.to(bars[1], { opacity: 0,            duration: 0.2 });
+        gsap.to(bars[2], { y: -7, rotation: -45, duration: 0.3, ease: 'power2.inOut' });
+      } else {
+        toggle.classList.remove('is-open');
+        overlay.style.pointerEvents = 'none';
+        gsap.to('#logo', { opacity: 1, duration: 0.2, delay: 0.2 });
+        gsap.to(overlay, { opacity: 0, duration: 0.3, ease: 'power2.in' });
+        gsap.to(links,   { opacity: 0, y: 24, duration: 0.25, stagger: 0.04 });
+        gsap.to(bars[0], { y: 0, rotation: 0, duration: 0.3, ease: 'power2.inOut' });
+        gsap.to(bars[1], { opacity: 1,         duration: 0.2, delay: 0.1 });
+        gsap.to(bars[2], { y: 0, rotation: 0, duration: 0.3, ease: 'power2.inOut' });
+      }
+    });
+
+    const PW = () => Math.floor(window.innerWidth / 3);
+    const PH = () => window.innerHeight;
+
+    function makeBg(panel) {
+      let hovered = false;
+      panel.addEventListener('mouseenter', () => { hovered = true; });
+      panel.addEventListener('mouseleave', () => { hovered = false; });
+      return () => hovered ? '#4B9CD3' : '#13294B';
+    }
+
+    function startPanelPatterns() {
+      startPanelPatterns = () => {};
+
+      (function() {
+        const cv = document.getElementById('canvas-about');
+        const ct = cv.getContext('2d');
+        cv.width = PW(); cv.height = PH();
+        const bg = makeBg(document.getElementById('panel-about'));
+        let t = 0;
+        const waves = [
+          { amp: 22, freq: 0.010, speed: 0.018, width: 1.0, color: '#ffffff' },
+          { amp: 45, freq: 0.007, speed: 0.010, width: 4.0, color: '#4B9CD3' },
+          { amp: 30, freq: 0.012, speed: 0.022, width: 1.5, color: '#ffffff' },
+          { amp: 60, freq: 0.005, speed: 0.008, width: 6.0, color: '#4B9CD3' },
+          { amp: 18, freq: 0.015, speed: 0.025, width: 1.0, color: '#ffffff' },
+          { amp: 50, freq: 0.006, speed: 0.012, width: 3.5, color: '#4B9CD3' },
+          { amp: 35, freq: 0.009, speed: 0.016, width: 2.0, color: '#ffffff' },
+          { amp: 70, freq: 0.004, speed: 0.007, width: 5.0, color: '#4B9CD3' },
+        ];
+        function draw() {
+          ct.fillStyle = bg(); ct.fillRect(0, 0, cv.width, cv.height);
+          waves.forEach((w, i) => {
+            const yBase = (cv.height / (waves.length + 1)) * (i + 1);
+            ct.beginPath();
+            for (let x = 0; x <= cv.width; x += 3) {
+              const y = yBase + Math.sin(x * w.freq + t * w.speed) * w.amp;
+              x === 0 ? ct.moveTo(x, y) : ct.lineTo(x, y);
+            }
+            ct.strokeStyle = w.color; ct.lineWidth = w.width; ct.stroke();
+          });
+          t++; requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      (function() {
+        const cv = document.getElementById('canvas-experience');
+        const ct = cv.getContext('2d');
+        cv.width = PW(); cv.height = PH();
+        const bg = makeBg(document.getElementById('panel-experience'));
+        const drops = Array.from({ length: 80 }, () => ({
+          x: Math.random() * cv.width, y: Math.random() * cv.height,
+          len: 8 + Math.random() * 40, speed: 2 + Math.random() * 5,
+          alpha: 0.3 + Math.random() * 0.7, width: 0.8 + Math.random() * 1.6
+        }));
+        function draw() {
+          ct.fillStyle = bg(); ct.fillRect(0, 0, cv.width, cv.height);
+          drops.forEach(d => {
+            d.y += d.speed;
+            if (d.y - d.len > cv.height) { d.y = -d.len; d.x = Math.random() * cv.width; }
+            ct.beginPath(); ct.moveTo(d.x, d.y - d.len); ct.lineTo(d.x, d.y);
+            ct.strokeStyle = `rgba(255,255,255,${d.alpha})`; ct.lineWidth = d.width; ct.stroke();
+          });
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      (function() {
+        const cv = document.getElementById('canvas-projects');
+        const ct = cv.getContext('2d');
+        cv.width = PW(); cv.height = PH();
+        const bg = makeBg(document.getElementById('panel-projects'));
+        const STYLES = ['fill-blue', 'stroke-white', 'stroke-white', 'fill-blue-faint', 'stroke-white'];
+        const shapes = Array.from({ length: 22 }, () => ({
+          x: Math.random() * cv.width, y: Math.random() * cv.height,
+          vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
+          r: 14 + Math.random() * 44, sides: [3,4,4,6][Math.floor(Math.random()*4)],
+          angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.014,
+          style: STYLES[Math.floor(Math.random() * STYLES.length)], lw: 1 + Math.random() * 2.5
+        }));
+        function poly(x, y, r, sides, angle) {
+          ct.beginPath();
+          for (let i = 0; i < sides; i++) {
+            const a = angle + (Math.PI * 2 / sides) * i;
+            i === 0 ? ct.moveTo(x + Math.cos(a)*r, y + Math.sin(a)*r)
+                    : ct.lineTo(x + Math.cos(a)*r, y + Math.sin(a)*r);
+          }
+          ct.closePath();
+        }
+        function draw() {
+          ct.fillStyle = bg(); ct.fillRect(0, 0, cv.width, cv.height);
+          shapes.forEach(s => {
+            s.x += s.vx; s.y += s.vy; s.angle += s.spin;
+            if (s.x < -s.r) s.x = cv.width + s.r;
+            if (s.x > cv.width + s.r) s.x = -s.r;
+            if (s.y < -s.r) s.y = cv.height + s.r;
+            if (s.y > cv.height + s.r) s.y = -s.r;
+            poly(s.x, s.y, s.r, s.sides, s.angle);
+            if (s.style === 'fill-blue') { ct.fillStyle = '#4B9CD3'; ct.fill(); }
+            else if (s.style === 'fill-blue-faint') {
+              ct.fillStyle = 'rgba(75,156,211,0.35)'; ct.fill();
+              ct.strokeStyle = '#4B9CD3'; ct.lineWidth = s.lw; ct.stroke();
+            } else { ct.strokeStyle = '#ffffff'; ct.lineWidth = s.lw; ct.stroke(); }
+          });
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+    }
+  </script>
+
+</body>
+</html>
