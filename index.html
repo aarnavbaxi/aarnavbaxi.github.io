@@ -174,6 +174,8 @@
 
       .phrase { background: #ffffff; }
 
+      #scene { display: none; }
+
       #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
       #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
 
@@ -397,7 +399,7 @@
 
       requestAnimationFrame(frame);
     }
-    frame();
+    if (window.innerWidth > 768) frame();
 
     const isMobile = () => window.innerWidth <= 768;
     const PW = () => isMobile() ? window.innerWidth : Math.floor(window.innerWidth / 3);
