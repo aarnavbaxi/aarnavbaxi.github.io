@@ -168,9 +168,7 @@
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 3.5rem;
-        padding-top: env(safe-area-inset-top, 0px);
-        box-sizing: content-box;
+        height: calc(env(safe-area-inset-top, 0px) + 4rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -179,14 +177,12 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 2rem;
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        box-sizing: content-box;
+        height: calc(env(safe-area-inset-bottom, 0px) + 2rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
       }
-      body { padding: 7rem 1.25rem 4rem; }
+      body { padding: calc(env(safe-area-inset-top, 0px) + 5.5rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + 3.5rem); }
       .projects-grid { grid-template-columns: 1fr; gap: 1.25rem; }
       .card-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
       .card-desc { font-size: 0.82rem; }

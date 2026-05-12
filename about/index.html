@@ -226,9 +226,7 @@
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 3.5rem;
-        padding-top: env(safe-area-inset-top, 0px);
-        box-sizing: content-box;
+        height: calc(env(safe-area-inset-top, 0px) + 4rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -237,18 +235,23 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 2rem;
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        box-sizing: content-box;
+        height: calc(env(safe-area-inset-bottom, 0px) + 2rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
       }
-      .about { padding: 7rem 1.5rem 4rem; }
+      .about { padding: calc(env(safe-area-inset-top, 0px) + 5.5rem) 1.5rem calc(env(safe-area-inset-bottom, 0px) + 3.5rem); }
 
       .name { font-size: clamp(2.5rem, 11vw, 4.5rem); white-space: normal; }
 
-      .socials { flex-wrap: wrap; gap: 0.75rem; }
+      .socials { flex-wrap: nowrap; gap: 0.4rem; }
+      .social-link {
+        padding: 0.35rem 0.55rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.04em;
+        gap: 0.3rem;
+      }
+      .social-link svg { width: 11px; height: 11px; }
 
       .bio-row { flex-direction: column; gap: 1.5rem; }
       .bio p { max-width: 100%; font-size: 0.88rem; }
