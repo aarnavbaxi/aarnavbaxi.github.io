@@ -244,6 +244,44 @@
       #panel-about a {
         top: calc(1.75rem + env(safe-area-inset-top));
       }
+      .navbar { transition: background 0.3s; }
+      body.nav-open .navbar { background: #13294B; }
+
+      .about {
+        width: 100%;
+        padding: 0 1.5rem;
+      }
+      .name {
+        font-size: clamp(2.4rem, 10vw, 4rem);
+        white-space: normal;
+        margin-bottom: 0.75rem;
+      }
+      .socials {
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 2rem;
+      }
+      .social-link {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+      }
+      .bio-row {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 1.5rem;
+        width: 100%;
+      }
+      .headshot {
+        width: clamp(160px, 50vw, 220px);
+        height: clamp(160px, 50vw, 220px);
+      }
+      .bio {
+        margin-bottom: 0;
+        width: 100%;
+      }
+      .bio p {
+        max-width: 100%;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -342,6 +380,7 @@
 
     toggle.addEventListener('click', () => {
       navOpen = !navOpen;
+      document.body.classList.toggle('nav-open', navOpen);
       toggle.setAttribute('aria-expanded', navOpen);
       overlay.setAttribute('aria-hidden', !navOpen);
 

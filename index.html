@@ -197,6 +197,8 @@
       #panel-about a {
         top: calc(1.75rem + env(safe-area-inset-top));
       }
+      .navbar { transition: background 0.3s; }
+      body.nav-open .navbar { background: #13294B; }
     }
   </style>
 </head>
@@ -286,6 +288,7 @@
 
     toggle.addEventListener('click', () => {
       navOpen = !navOpen;
+      document.body.classList.toggle('nav-open', navOpen);
       toggle.setAttribute('aria-expanded', navOpen);
       overlay.setAttribute('aria-hidden', !navOpen);
 
