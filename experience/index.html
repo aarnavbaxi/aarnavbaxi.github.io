@@ -179,8 +179,17 @@
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 7rem;
-        background: linear-gradient(to bottom, #ffffff 75%, transparent);
+        height: 4rem;
+        background: #ffffff;
+        z-index: 100;
+        pointer-events: none;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 3rem;
+        background: #ffffff;
         z-index: 100;
         pointer-events: none;
       }
