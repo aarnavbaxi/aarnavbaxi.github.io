@@ -220,13 +220,15 @@
 
       html, body { overflow: visible; height: auto; }
       body { align-items: flex-start; justify-content: flex-start; }
-      #logo { top: 70px; }
-      #nav-toggle { top: 72px; }
+      #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
+      #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
       body::before {
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 90px;
+        height: 3.5rem;
+        padding-top: env(safe-area-inset-top, 0px);
+        box-sizing: content-box;
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -235,7 +237,9 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 50px;
+        height: 2rem;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        box-sizing: content-box;
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
