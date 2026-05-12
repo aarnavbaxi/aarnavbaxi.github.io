@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aarnav Baxi — Experience</title>
   <link rel="icon" type="image/png" href="/assets/logo.png">
 
@@ -174,29 +174,22 @@
     @media (max-width: 768px) {
       #nav-overlay { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr 1fr; }
       .nav-panel a { font-size: clamp(2rem, 10vw, 3.5rem); }
-      #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
-      #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
 
       body::before {
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: calc(env(safe-area-inset-top, 0px) + 4rem);
-        background: #ffffff;
-        z-index: 100;
-        pointer-events: none;
-      }
-      body::after {
-        content: '';
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
-        height: calc(env(safe-area-inset-bottom, 0px) + 2rem);
-        background: #ffffff;
+        height: 5rem;
+        background: linear-gradient(to bottom, #ffffff 60%, transparent);
         z-index: 100;
         pointer-events: none;
       }
       .content { padding: 0 2rem; }
       .entries-window { width: calc(100vw - 4rem - 2rem - 38px - 0.75rem - 8px); }
+    }
+
+    @media (max-width: 480px) {
+      #logo img { height: 28px; }
     }
   </style>
 </head>
