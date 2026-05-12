@@ -199,6 +199,20 @@
       }
       .navbar { transition: background 0.3s; }
       body.nav-open .navbar { background: #13294B; }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: env(safe-area-inset-top);
+        background: #ffffff;
+        z-index: 250;
+        pointer-events: none;
+        transition: background 0.3s;
+      }
+      body.nav-open::before { background: #13294B; }
     }
   </style>
 </head>

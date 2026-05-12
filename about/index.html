@@ -257,13 +257,19 @@
         margin-bottom: 0.75rem;
       }
       .socials {
-        flex-wrap: wrap;
-        gap: 0.6rem;
+        flex-wrap: nowrap;
+        gap: 0.4rem;
         margin-bottom: 2rem;
       }
       .social-link {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.75rem;
+        font-size: 0.68rem;
+        padding: 0.3rem 0.55rem;
+        letter-spacing: 0.06em;
+        gap: 0.35rem;
+      }
+      .social-link svg {
+        width: 13px;
+        height: 13px;
       }
       .bio-row {
         flex-direction: column-reverse;
@@ -282,6 +288,20 @@
       .bio p {
         max-width: 100%;
       }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: env(safe-area-inset-top);
+        background: #ffffff;
+        z-index: 250;
+        pointer-events: none;
+        transition: background 0.3s;
+      }
+      body.nav-open::before { background: #13294B; }
     }
 
     @media (prefers-reduced-motion: reduce) {

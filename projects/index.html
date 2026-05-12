@@ -88,10 +88,6 @@
       }
       .navbar { transition: background 0.3s; }
       body.nav-open .navbar { background: #13294B; }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     .page-header { margin-bottom: 2.5rem; }
@@ -193,6 +189,26 @@
     }
     .card-link:hover { background: #4B9CD3; color: #ffffff; }
     .card-link svg { width: 12px; height: 12px; fill: currentColor; flex-shrink: 0; }
+
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: env(safe-area-inset-top);
+        background: #ffffff;
+        z-index: 250;
+        pointer-events: none;
+        transition: background 0.3s;
+      }
+      body.nav-open::before { background: #13294B; }
+    }
   </style>
 </head>
 <body>
