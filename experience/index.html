@@ -372,6 +372,35 @@
       if (e.key === 'ArrowUp')   goUp();
     });
 
+    let wheelLocked = false;
+    let wheelTimeout;
+    window.addEventListener('wheel', e => {
+      if (wheelLocked) {
+        clearTimeout(wheelTimeout);
+        wheelTimeout = setTimeout(() => { wheelLocked = false; }, 150);
+        return;
+      }
+      if (animating) return;
+      if (Math.abs(e.deltaY) < 8) return;
+      wheelLocked = true;
+      wheelTimeout = setTimeout(() => { wheelLocked = false; }, 150);
+      if (e.deltaY > 0) goDown();
+      else              goUp();
+    }, { passive: true });
+
+    let touchStartY = null;
+    window.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', e => {
+      if (touchStartY === null || animating) return;
+      const dy = touchStartY - e.changedTouches[0].clientY;
+      touchStartY = null;
+      if (Math.abs(dy) < 40) return;
+      if (dy > 0) goDown();
+      else        goUp();
+    }, { passive: true });
+
     gsap.from('.page-header', { opacity: 0, y: 20, duration: 0.7, delay: 0.15, ease: 'power3.out' });
     gsap.from('.timeline-box', { opacity: 0, y: 20, duration: 0.7, delay: 0.35, ease: 'power3.out' });
 
