@@ -174,14 +174,14 @@
     @media (max-width: 768px) {
       #nav-overlay { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr 1fr; }
       .nav-panel a { font-size: clamp(2rem, 10vw, 3.5rem); }
-      #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
-      #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
+      #logo { top: 70px; }
+      #nav-toggle { top: 72px; }
 
       body::before {
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: calc(env(safe-area-inset-top, 0px) + 3.5rem);
+        height: 90px;
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -190,7 +190,7 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: calc(env(safe-area-inset-bottom, 0px) + 2.5rem);
+        height: 50px;
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
