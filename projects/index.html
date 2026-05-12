@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aarnav Baxi — Projects</title>
   <link rel="icon" type="image/png" href="/assets/logo.png">
 
@@ -161,12 +161,14 @@
     @media (max-width: 768px) {
       #nav-overlay { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr 1fr; }
       .nav-panel a { font-size: clamp(2rem, 10vw, 3.5rem); }
+      #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
+      #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
 
       body::before {
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 4rem;
+        height: calc(env(safe-area-inset-top, 0px) + 3.5rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -175,12 +177,12 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 3rem;
+        height: calc(env(safe-area-inset-bottom, 0px) + 2.5rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
       }
-      body { padding: 5rem 1.25rem 4rem; }
+      body { padding: calc(env(safe-area-inset-top, 0px) + 4.5rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + 3.5rem); }
       .projects-grid { grid-template-columns: 1fr; gap: 1.25rem; }
       .card-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
       .card-desc { font-size: 0.82rem; }

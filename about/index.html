@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aarnav Baxi — About</title>
   <link rel="icon" type="image/png" href="/assets/logo.png">
 
@@ -220,11 +220,13 @@
 
       html, body { overflow: visible; height: auto; }
       body { align-items: flex-start; justify-content: flex-start; }
+      #logo { top: calc(env(safe-area-inset-top, 0px) + 1.25rem); }
+      #nav-toggle { top: calc(env(safe-area-inset-top, 0px) + 1.5rem); }
       body::before {
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 4rem;
+        height: calc(env(safe-area-inset-top, 0px) + 3.5rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
@@ -233,12 +235,12 @@
         content: '';
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 3rem;
+        height: calc(env(safe-area-inset-bottom, 0px) + 2.5rem);
         background: #ffffff;
         z-index: 100;
         pointer-events: none;
       }
-      .about { padding: 5rem 1.5rem 4rem; }
+      .about { padding: calc(env(safe-area-inset-top, 0px) + 4.5rem) 1.5rem calc(env(safe-area-inset-bottom, 0px) + 3.5rem); }
 
       .name { font-size: clamp(2.5rem, 11vw, 4.5rem); white-space: normal; }
 
