@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
   <title>Aarnav Baxi</title>
   <link rel="icon" type="image/png" href="/assets/logo.png">
 
@@ -300,9 +301,12 @@
     const links   = overlay.querySelectorAll('.nav-panel a');
     let navOpen   = false;
 
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
     toggle.addEventListener('click', () => {
       navOpen = !navOpen;
       document.body.classList.toggle('nav-open', navOpen);
+      themeColorMeta.setAttribute('content', navOpen ? '#13294B' : '#ffffff');
       toggle.setAttribute('aria-expanded', navOpen);
       overlay.setAttribute('aria-hidden', !navOpen);
 
