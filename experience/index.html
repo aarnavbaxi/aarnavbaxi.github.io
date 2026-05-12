@@ -28,6 +28,26 @@
       min-height: 100vh;
     }
 
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: #ffffff;
+      z-index: 50;
+    }
+    .navbar-fade {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
+      z-index: 49;
+      pointer-events: none;
+    }
+
     /* ── Logo ── */
     #logo { position: fixed; top: 1.25rem; left: 1.75rem; z-index: 200; }
     #logo img { height: 36px; width: auto; display: block; }
@@ -173,6 +193,9 @@
   </style>
 </head>
 <body>
+
+  <div class="navbar"></div>
+  <div class="navbar-fade"></div>
 
   <a id="logo" href="/">
     <img src="/assets/logo.png" alt="Aarnav Baxi">
